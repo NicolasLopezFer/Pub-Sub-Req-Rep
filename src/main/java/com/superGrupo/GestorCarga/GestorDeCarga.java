@@ -10,80 +10,81 @@ import org.zeromq.ZContext;
 import org.zeromq.SocketType;
 import java.util.StringTokenizer;
 
+import com.superGrupo.Actores.ActorPrestamo;
+
 public class GestorDeCarga {
     public static void main( String[] args ) throws Exception
     {
-        // ZMQ.Context context = ZMQ.context(1);
+        //  Socker context
+        ZMQ.Context context = ZMQ.context(1);
+        ZContext context2 = new ZContext();
 
-        // //  Socket to talk to clients
-        // ZMQ.Socket responder = context.socket(ZMQ.REP);
-        // responder.bind("tcp://*:9999");
+        //  Socker preparation
+        ZMQ.Socket responder = context.socket(ZMQ.REP);
+        ZMQ.Socket publisher = context2.createSocket(SocketType.PUB);
+
+
+        responder.bind("tcp://*:9999");
+        publisher.bind("tcp://*:10001");
         
-        // while (!Thread.currentThread().isInterrupted()) {
-        //     // Wait for next request from the client
-        //     byte[] request = responder.recv(0);
-        //     String ps = new String(request, StandardCharsets.UTF_8);
-        //     String[] partes = ps.split(",");
-            
-        //     //System.out.println("Solicitud: " + partes[0] + "  Usuario: " + partes[1] + "   Libro: " + partes[2]);
+        while (!Thread.currentThread().isInterrupted()) {
+            // Wait for next request from the client
+            byte[] request = responder.recv(0);
+            String ps = new String(request, StandardCharsets.UTF_8);
+            String[] partes = ps.split(",");
             
             
-        //     String respuesta = "";
+            String respuesta = "";
 
-        //     if(partes[0].equals("D")){
-        //         respuesta = "La biblioteca esta recibiendo el libro";
-        //     } else if(partes[0].equals("R")){
-        //         DateTimeFormatter dft = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        //         LocalDateTime now = LocalDateTime.now();
-        //         respuesta = "La nueva fecha de retorno es:" + dft.format(now.plusDays(7));
+            if(partes[0].equals("D")){
+                //Envio de respuesta devolver a cliente
+                respuesta = "La biblioteca esta recibiendo el libro";
+                // System.out.println("Se esta enviando: " + respuesta);
+                responder.send(respuesta.getBytes(), 0);
+                
+                //PUB SUB CON ACTOR DEVOLUCION
+                publisher.sendMore("Devolucion");
+                publisher.send(partes[1]+","+partes[2]);
+                System.out.println("Se envio renovacion a actor devolucion");
 
-        //     } else if(partes[0].equals("P")){
-        //         respuesta = "Prestamo";
-        //     }
+                
+            } else if(partes[0].equals("R")){
 
-        //     // Do some 'work'
-        //     Thread.sleep(1000);
+                //Envio de respuesta renovar a cliente
+                DateTimeFormatter dft = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDateTime now = LocalDateTime.now();
+                respuesta = "La nueva fecha de retorno es:" + dft.format(now.plusDays(7));
+                System.out.println("Se esta enviando: " + respuesta);
+                responder.send(respuesta.getBytes(), 0);
 
-        //     // Send reply back to client-
-        //     System.out.println("Se esta enviando: " + respuesta);
-        //     responder.send(respuesta.getBytes(), 0);
-        // }
-        // responder.close();
-        // context.term();
+                //PUB SUB CON ACTOR RENOVACION
+                publisher.sendMore("Renovacion");
+                publisher.send(partes[1]+","+partes[2]);
+                System.out.println("Se envio renovacion a actor renovacion");
+                
+                
+            } else if(partes[0].equals("P")){
 
+                //Realizar prestamo y validacion
+                ActorPrestamo aP = new ActorPrestamo();
 
-        try (ZContext context = new ZContext()) {
-            //  Socket to talk to server
-            System.out.println("Collecting updates from weather server");
-            ZMQ.Socket subscriber = context.createSocket(SocketType.SUB);
-            subscriber.connect("tcp://localhost:5556");
+                String respuestaAux = aP.realizarPrestamo(partes[1], partes[0]);
 
-            //  Subscribe to zipcode, default is NYC, 10001
-            String filter = (args.length > 0) ? args[0] : "10001 ";
-            subscriber.subscribe(filter.getBytes(ZMQ.CHARSET));
+                System.out.println(respuestaAux);
 
-            //  Process 100 updates
-            int update_nbr;
-            long total_temp = 0;
-            for (update_nbr = 0; update_nbr < 100; update_nbr++) {
-                //  Use trim to remove the tailing '0' character
-                String string = subscriber.recvStr(0).trim();
-
-                StringTokenizer sscanf = new StringTokenizer(string, " ");
-                int zipcode = Integer.valueOf(sscanf.nextToken());
-                int temperature = Integer.valueOf(sscanf.nextToken());
-                int relhumidity = Integer.valueOf(sscanf.nextToken());
-
-                total_temp += temperature;
+                //Envio de respuesta prestamo a cliente
+                respuesta = "Prestamo";
+                responder.send(respuesta.getBytes(), 0);
             }
+            Thread.sleep(1000);
 
-            System.out.println(
-                String.format(
-                    "Average temperature for zipcode '%s' was %d.",
-                    filter,
-                    (int)(total_temp / update_nbr)
-                )
-            );
+            // Send reply back to client-
         }
+        responder.close();
+        context2.close();
+        context.term();
+
+
+        
     }
 }

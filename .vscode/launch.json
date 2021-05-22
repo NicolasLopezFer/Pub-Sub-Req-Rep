@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch ActorRenovacion",
+            "request": "launch",
+            "mainClass": "com.superGrupo.Actores.ActorRenovacion",
+            "projectName": "proyectodistri"
+        },
+        {
+            "type": "java",
+            "name": "Launch ProcesoSolicitante",
+            "request": "launch",
+            "mainClass": "com.superGrupo.Solicitante.ProcesoSolicitante",
+            "projectName": "proyectodistri"
+        },
+        {
+            "type": "java",
             "name": "Launch GestorDeCarga",
             "request": "launch",
             "mainClass": "com.superGrupo.GestorCarga.GestorDeCarga",

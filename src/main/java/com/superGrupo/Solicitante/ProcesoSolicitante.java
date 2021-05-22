@@ -12,7 +12,7 @@ public class ProcesoSolicitante {
         ZMQ.Context context = ZMQ.context(1);
 
         ZMQ.Socket requester = context.socket(ZMQ.REQ);
-        requester.connect("tcp://25.16.253.86:9999");
+        requester.connect("tcp://localhost:9999");
 
         try{
             File myObj = new File("provider/ps.txt");
