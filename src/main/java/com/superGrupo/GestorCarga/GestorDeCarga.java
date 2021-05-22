@@ -44,7 +44,7 @@ public class GestorDeCarga {
                 //PUB SUB CON ACTOR DEVOLUCION
                 publisher.sendMore("Devolucion");
                 publisher.send(partes[1]+","+partes[2]);
-                System.out.println("Se envio renovacion a actor devolucion");
+                // System.out.println("Se envio renovacion a actor devolucion");
 
                 
             } else if(partes[0].equals("R")){
@@ -52,6 +52,7 @@ public class GestorDeCarga {
                 //Envio de respuesta renovar a cliente
                 DateTimeFormatter dft = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 LocalDateTime now = LocalDateTime.now();
+
                 respuesta = "La nueva fecha de retorno es:" + dft.format(now.plusDays(7));
                 System.out.println("Se esta enviando: " + respuesta);
                 responder.send(respuesta.getBytes(), 0);
@@ -59,7 +60,7 @@ public class GestorDeCarga {
                 //PUB SUB CON ACTOR RENOVACION
                 publisher.sendMore("Renovacion");
                 publisher.send(partes[1]+","+partes[2]);
-                System.out.println("Se envio renovacion a actor renovacion");
+                // System.out.println("Se envio renovacion a actor renovacion");
                 
                 
             } else if(partes[0].equals("P")){
@@ -69,7 +70,7 @@ public class GestorDeCarga {
 
                 String respuestaAux = aP.realizarPrestamo(partes[1], partes[0]);
 
-                System.out.println(respuestaAux);
+                // System.out.println(respuestaAux);
 
                 //Envio de respuesta prestamo a cliente
                 respuesta = "Prestamo";

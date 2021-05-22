@@ -1,5 +1,5 @@
-Id,Libro,Usuario,fecha_prestamo,fecha_entrega,Sede
-1,5301,5,12/03/2021,19/03/2021,Sede1
+Id,Libro,Usuario,fecha_entrega,Sede
+1,Libro5301,Usuario5,19/03/2021,Sede1
 2,5405,1,13/03/2021,20/03/2021,Sede1
 3,5281,4,08/03/2021,15/03/2021,Sede1
 4,5294,4,14/02/2021,21/02/2021,Sede1

@@ -14,8 +14,18 @@ public class ActorDevolucion {
         subscriber.subscribe("Devolucion".getBytes(ZMQ.CHARSET));
 
         while(!Thread.currentThread().isInterrupted()){
+            String topic = subscriber.recvStr();
             String data = subscriber.recvStr();
             System.out.println(data);
+            
+            String[] partesAux = data.split(",");
+
+            String usuario = partesAux[0];
+            String libro = partesAux[1];
+            String sede = "Sede1";
+
+            System.out.println(usuario);
+            System.out.println(libro);
         }
 
         context.close();
