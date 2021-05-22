@@ -1,0 +1,7 @@
+D,Usuario4,Libro6748
+R,Usuario4,Libro6748
+P,Usuario4,Libro6748
+D,Usuario4,Libro6748
+R,Usuario4,Libro6748
+P,Usuario4,Libro6748
+D,Usuario4,Libro6748
