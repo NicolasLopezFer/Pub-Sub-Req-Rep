@@ -1,3 +1,8 @@
+Libro4000,Albuquerque,5
+Libro4001,Biblia,5
+Libro4002,El hombre en busca de sentido, 5
+Libro4003,El olvido que seremos,5
+Libro4004,Vespucci beach,5
 Libro5000,Vestibulum Limited,5
 Libro5001,Augue Institute,15
 Libro5002,Vel Vulputate Corp,5
@@ -498,3 +503,4 @@ Libro5396,Ipsum Nunc Id Industries,16
 Libro5397,Mauris Ltd,17
 Libro5398,Adipiscing Inc,9
 Libro5399,Ipsum Curabitur Consequat Company,20
+Libro5400,Mi Lucha,1
