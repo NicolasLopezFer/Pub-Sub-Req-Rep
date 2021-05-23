@@ -43,38 +43,44 @@ public class GestorDeCarga {
                 
                 //PUB SUB CON ACTOR DEVOLUCION
                 publisher.sendMore("Devolucion");
-                publisher.send(partes[1]+","+partes[2]);
-                // System.out.println("Se envio renovacion a actor devolucion");
+                publisher.send(partes[1]+","+partes[2]); //Se necesita la sede?
+                System.out.println("Se envio renovacion a actor devolucion");
 
                 
             } else if(partes[0].equals("R")){
-
+                
                 //Envio de respuesta renovar a cliente
-                DateTimeFormatter dft = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                DateTimeFormatter dft = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 LocalDateTime now = LocalDateTime.now();
 
-                respuesta = "La nueva fecha de retorno es:" + dft.format(now.plusDays(7));
+                String fecha = dft.format(now.plusDays(7)).toString();
+                respuesta = "La nueva fecha de retorno es:" + fecha;
                 System.out.println("Se esta enviando: " + respuesta);
                 responder.send(respuesta.getBytes(), 0);
 
+                String sede="Sede1";
                 //PUB SUB CON ACTOR RENOVACION
                 publisher.sendMore("Renovacion");
-                publisher.send(partes[1]+","+partes[2]);
-                // System.out.println("Se envio renovacion a actor renovacion");
+                publisher.send(partes[1]+","+partes[2]+","+fecha+","+sede);
+                System.out.println("Se envio renovacion a actor renovacion");
                 
                 
             } else if(partes[0].equals("P")){
+                DateTimeFormatter dft = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDateTime now = LocalDateTime.now();
+                String fecha= dft.format(now.plusDays(7)).toString();
+                String sede="Sede1";
 
                 //Realizar prestamo y validacion
                 ActorPrestamo aP = new ActorPrestamo();
 
-                String respuestaAux = aP.realizarPrestamo(partes[1], partes[0]);
+                String respuestaAux = aP.realizarPrestamo(partes[1], partes[2],fecha,sede);
 
-                // System.out.println(respuestaAux);
+                System.out.println(respuestaAux);
 
                 //Envio de respuesta prestamo a cliente
-                respuesta = "Prestamo";
-                responder.send(respuesta.getBytes(), 0);
+                //respuesta = "Prestamo";
+                responder.send(respuestaAux.getBytes(), 0);
             }
             Thread.sleep(1000);
 

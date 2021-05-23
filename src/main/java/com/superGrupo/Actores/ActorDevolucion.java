@@ -1,5 +1,12 @@
 package com.superGrupo.Actores;
 
+import java.util.ArrayList;
+
+import com.superGrupo.Entidades.Libro;
+import com.superGrupo.Entidades.Prestamo;
+import com.superGrupo.Entidades.Usuario;
+import com.superGrupo.Services.DBService;
+
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
@@ -22,12 +29,42 @@ public class ActorDevolucion {
 
             String usuario = partesAux[0];
             String libro = partesAux[1];
-            String sede = "Sede1";
+            //Se necesita sede?
+            ArrayList<Usuario> usuarios = DBService.leerUsuarios();
+            ArrayList<Libro> libros =DBService.leerLibros();
+            ArrayList<Prestamo> prestamos =DBService.leerPrestamos();
+
+            Usuario user=DBService.validarUsuario(usuario, usuarios);
+            if(user==null){
+                System.out.println("El usuario no se encuentra registrado en la biblioteca");
+                return;
+            }
+            Libro book = DBService.validarLibro(libro, libros);
+            if(book==null){
+                System.out.println("El usuario no se encuentra registrado en la biblioteca");
+                return;
+            }
 
             System.out.println(usuario);
             System.out.println(libro);
+
+            procesoDevolucion(usuario,libro,prestamos);
+            DBService.actualizarPrestamo(prestamos);
         }
 
         context.close();
+    }
+
+    public static void procesoDevolucion(String usuario,String libro,ArrayList<Prestamo> prestamos){
+        Prestamo prestamo=DBService.validarPrestamo(libro, usuario,prestamos);
+        boolean deleted=true;
+        try{
+            deleted=prestamos.remove(prestamo);
+        }catch(Exception e){
+            System.out.println("Error: El prestamo al que desea hacer la devolución no esta registrado en la biblioteca");
+        }
+        if (!deleted)
+            System.out.println("Error: El prestamo al que desea hacer la devolución no esta registrado en la biblioteca");
+        else System.out.println("Devolución realizada correctamente.");
     }
 }
