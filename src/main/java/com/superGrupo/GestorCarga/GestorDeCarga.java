@@ -82,7 +82,12 @@ public class GestorDeCarga {
                 //respuesta = "Prestamo";
                 responder.send(respuestaAux.getBytes(), 0);
             }
-            Thread.sleep(1000);
+            else{
+                respuesta = "No se recibió el tipo de solicitud";
+                // System.out.println("Se esta enviando: " + respuesta);
+                responder.send(respuesta.getBytes(), 0);
+            }
+            //Thread.sleep(1000);
 
             // Send reply back to client-
         }

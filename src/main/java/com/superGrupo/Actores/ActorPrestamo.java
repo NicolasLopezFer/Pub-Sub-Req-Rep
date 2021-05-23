@@ -19,14 +19,17 @@ public class ActorPrestamo {
         ArrayList<Usuario> usuarios = DBService.leerUsuarios();
         System.out.println("Size Usuarios:"+usuarios.size());
         ArrayList<Libro> libros =DBService.leerLibros();
+        System.out.println("Size Libros:"+libros.size());
         ArrayList<Prestamo> prestamos =DBService.leerPrestamos();
+        System.out.println("Size Prestamos:"+prestamos.size());
 
         Usuario usuario=DBService.validarUsuario(idUsuario, usuarios);
+        System.out.println("Usuario: "+usuario);
         if(usuario==null)
             return "El usuario no se encuentra registrado en la biblioteca";
         Libro libro = DBService.validarLibro(isbnLibro, libros);
         if(libro==null)
-            return "El usuario no se encuentra registrado en la biblioteca";
+            return "El libro no se encuentra registrado en la biblioteca";
         
         Prestamo p=new Prestamo();
         p.setOperacion("P");
