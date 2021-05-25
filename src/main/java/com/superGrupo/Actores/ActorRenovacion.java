@@ -26,7 +26,6 @@ public class ActorRenovacion {
             String topic = subscriber.recvStr();
             String data = subscriber.recvStr();
             
-            System.out.println(data);
             String[] partesAux = data.split(",");
             
             String usuario = partesAux[0];
@@ -48,9 +47,6 @@ public class ActorRenovacion {
                 System.out.println("El usuario no se encuentra registrado en la biblioteca");
                 return;
             }
-
-            System.out.println(usuario);
-            System.out.println(libro);
 
             procesoRenovacion(usuario,libro,fecha,sede,prestamos);
             DBService.actualizarPrestamo(prestamos);

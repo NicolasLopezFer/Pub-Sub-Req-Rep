@@ -25,7 +25,6 @@ public class ActorDevolucion {
         while(!Thread.currentThread().isInterrupted()){
             String topic = subscriber.recvStr();
             String data = subscriber.recvStr();
-            System.out.println(data);
             
             String[] partesAux = data.split(",");
 
@@ -47,9 +46,6 @@ public class ActorDevolucion {
                 System.out.println("El usuario no se encuentra registrado en la biblioteca");
                 return;
             }
-
-            System.out.println(usuario);
-            System.out.println(libro);
 
             procesoDevolucion(usuario,libro,prestamos);
             DBService.actualizarPrestamo(prestamos);

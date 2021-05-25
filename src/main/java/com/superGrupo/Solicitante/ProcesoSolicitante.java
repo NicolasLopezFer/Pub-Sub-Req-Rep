@@ -20,12 +20,12 @@ public class ProcesoSolicitante {
         LocalDateTime now1 = LocalDateTime.now();
 
         try{
-            File myObj = new File("provider/ps.txt");
+            File myObj = new File("provider/3PS_250.txt");
             Scanner myReader = new Scanner(myObj);
 
             requester.setReceiveTimeOut(400);
 
-            boolean gestor1=true;
+            String sede="Sede1";
             while(myReader.hasNextLine()){
                 String data = myReader.nextLine();
                 data = data + ","+ now1;
@@ -45,7 +45,7 @@ public class ProcesoSolicitante {
                         System.out.println("RESPUESTA: " + respuesta);
                     }
                     else {
-                        gestor1=false;
+                        sede="Sede2";
                         System.out.println("Intenta con otro gestor");
                     }
                 }while(reply==null);  

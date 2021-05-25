@@ -1,5 +1,0 @@
-P,Usuario6,Libro4001
-D,Usuario6,Libro4001
-D,Usuario6,Libro4001
-D,Usuario6,Libro4001
-D,Usuario6,Libro4001
