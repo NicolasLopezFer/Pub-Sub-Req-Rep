@@ -24,7 +24,7 @@ public class GestorDeCarga {
         ZMQ.Socket publisher = context2.createSocket(SocketType.PUB);
 
 
-        responder.bind("tcp://*:9999");
+        responder.bind("tcp://*:10005");
         publisher.bind("tcp://*:10001");
         
         while (!Thread.currentThread().isInterrupted()) {

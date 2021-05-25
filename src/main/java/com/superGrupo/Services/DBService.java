@@ -16,9 +16,9 @@ import com.superGrupo.Entidades.Usuario;
  */
 public class DBService 
 {
-    static String dirUsuarios= "./database/USUARIOS.txt";
-    static String dirLibros= "./database/LIBROS.txt";
-    static String dirPrestamos= "./database/PRESTAMOS.txt";
+    static String dirUsuarios= "/home/nico/Desktop/ProyectisNuevo/ProyectoDistribuidos/database/USUARIOS.txt";
+    static String dirLibros= "/home/nico/Desktop/ProyectisNuevo/ProyectoDistribuidos/database/LIBROS.txt";
+    static String dirPrestamos= "/home/nico/Desktop/ProyectisNuevo/ProyectoDistribuidos/database/PRESTAMOS.txt";
     
     public static ArrayList<Usuario> leerUsuarios() {
         ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
