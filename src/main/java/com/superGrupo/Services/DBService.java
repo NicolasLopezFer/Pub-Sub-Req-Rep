@@ -58,7 +58,7 @@ public class DBService
             while (s.hasNextLine()) {
                 String line = s.nextLine();
                 String[] properties = line.split(",");
-                System.out.println("line: "+line);
+                // System.out.println("line: "+line);
                 //System.out.println("properties:"+properties);
                 Libro libro = new Libro();
                 libro.setIsbn(properties[0]);

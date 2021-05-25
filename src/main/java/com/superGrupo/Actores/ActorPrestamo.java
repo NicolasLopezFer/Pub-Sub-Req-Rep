@@ -12,19 +12,19 @@ public class ActorPrestamo {
     
     public String realizarPrestamo(String idUsuario, String isbnLibro, String fecha, String sede){
         
-        System.out.println("Entra a prestar");
-        System.out.println(idUsuario);
-        System.out.println(isbnLibro);
+        // System.out.println("Entra a prestar");
+        // System.out.println(idUsuario);
+        // System.out.println(isbnLibro);
         
         ArrayList<Usuario> usuarios = DBService.leerUsuarios();
-        System.out.println("Size Usuarios:"+usuarios.size());
+        // System.out.println("Size Usuarios:"+usuarios.size());
         ArrayList<Libro> libros =DBService.leerLibros();
-        System.out.println("Size Libros:"+libros.size());
+        // System.out.println("Size Libros:"+libros.size());
         ArrayList<Prestamo> prestamos =DBService.leerPrestamos();
-        System.out.println("Size Prestamos:"+prestamos.size());
+        // System.out.println("Size Prestamos:"+prestamos.size());
 
         Usuario usuario=DBService.validarUsuario(idUsuario, usuarios);
-        System.out.println("Usuario: "+usuario);
+        // System.out.println("Usuario: "+usuario);
         if(usuario==null)
             return "El usuario no se encuentra registrado en la biblioteca";
         Libro libro = DBService.validarLibro(isbnLibro, libros);
@@ -40,7 +40,7 @@ public class ActorPrestamo {
 
         int cantidadPrestada = cantidadPrestadaLibro(isbnLibro,prestamos);
         int disponibles = libro.getCantidadTotal()-cantidadPrestada;
-        System.out.println("Disp"+disponibles);
+        // System.out.println("Disp"+disponibles);
         if(disponibles<1)
             return "No existe disponibilidad del libro solicitado para prestamo.";
         prestamos.add(p);

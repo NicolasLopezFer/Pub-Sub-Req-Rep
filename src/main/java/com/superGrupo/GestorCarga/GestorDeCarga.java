@@ -1,6 +1,7 @@
 package com.superGrupo.GestorCarga;
 
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -36,15 +37,14 @@ public class GestorDeCarga {
             String respuesta = "";
 
             if(partes[0].equals("D")){
+                LocalDateTime now = LocalDateTime.now();
                 //Envio de respuesta devolver a cliente
                 respuesta = "La biblioteca esta recibiendo el libro";
-                // System.out.println("Se esta enviando: " + respuesta);
                 responder.send(respuesta.getBytes(), 0);
                 
                 //PUB SUB CON ACTOR DEVOLUCION
                 publisher.sendMore("Devolucion");
-                publisher.send(partes[1]+","+partes[2]); //Se necesita la sede?
-                System.out.println("Se envio renovacion a actor devolucion");
+                publisher.send(partes[1]+","+partes[2]+","+now.toString()); //Se necesita la sede?
 
                 
             } else if(partes[0].equals("R")){
@@ -55,14 +55,12 @@ public class GestorDeCarga {
 
                 String fecha = dft.format(now.plusDays(7)).toString();
                 respuesta = "La nueva fecha de retorno es:" + fecha;
-                System.out.println("Se esta enviando: " + respuesta);
                 responder.send(respuesta.getBytes(), 0);
 
                 String sede="Sede1";
                 //PUB SUB CON ACTOR RENOVACION
                 publisher.sendMore("Renovacion");
                 publisher.send(partes[1]+","+partes[2]+","+fecha+","+sede);
-                System.out.println("Se envio renovacion a actor renovacion");
                 
                 
             } else if(partes[0].equals("P")){
@@ -76,15 +74,15 @@ public class GestorDeCarga {
 
                 String respuestaAux = aP.realizarPrestamo(partes[1], partes[2],fecha,sede);
 
-                System.out.println(respuestaAux);
-
                 //Envio de respuesta prestamo a cliente
                 //respuesta = "Prestamo";
                 responder.send(respuestaAux.getBytes(), 0);
+                LocalDateTime now2 = LocalDateTime.now();
+
+                System.out.println("Tiempo de proceso prestamo: " + Duration.between(LocalDateTime.parse(partes[3]), now2));
             }
             else{
                 respuesta = "No se recibió el tipo de solicitud";
-                // System.out.println("Se esta enviando: " + respuesta);
                 responder.send(respuesta.getBytes(), 0);
             }
             //Thread.sleep(1000);

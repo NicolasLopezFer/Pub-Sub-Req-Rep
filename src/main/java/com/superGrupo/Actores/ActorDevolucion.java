@@ -1,5 +1,7 @@
 package com.superGrupo.Actores;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import com.superGrupo.Entidades.Libro;
@@ -29,6 +31,7 @@ public class ActorDevolucion {
 
             String usuario = partesAux[0];
             String libro = partesAux[1];
+            LocalDateTime now = LocalDateTime.parse(partesAux[2]);
             //Se necesita sede?
             ArrayList<Usuario> usuarios = DBService.leerUsuarios();
             ArrayList<Libro> libros =DBService.leerLibros();
@@ -50,6 +53,7 @@ public class ActorDevolucion {
 
             procesoDevolucion(usuario,libro,prestamos);
             DBService.actualizarPrestamo(prestamos);
+            System.out.println("Tiempo de devolucion: " + Duration.between(now, LocalDateTime.now()));
         }
 
         context.close();
